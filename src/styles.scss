@@ -1,1 +1,52 @@
-/* You can add global styles to this file, and also import other style files */
+@import "/src/assets/theme/first.scss";
+@import "/src/assets/theme/second.scss";
+
+@import "/src/assets/theme/base.scss";
+
+
+@function map-get-value($map, $key) {
+    @if map-has-key($map, $key) {
+        @return map-get($map, $key);
+    }
+    @else {
+        @error "ERROR: Specified key #{$key} does not exist in the mapping #{map-get($map,name)}";
+    }
+}
+
+@mixin set-theme($map) { 
+    .main-color{
+        background-color: map-get-value($map, main-color);
+    }
+    .main-color-shade{
+        background-color: map-get-value($map, main-color-shade);
+    }
+
+    .main-second-color{
+        background-color: map-get-value($map, main-second-color);
+    }
+    .main-second-color-shade{
+        background-color: map-get-value($map, main-second-color-shade);
+    }
+
+    .text-color{
+        color: map-get-value($map, text-color);
+    }
+}
+
+//set theme
+.first {
+    @include set-theme($first-value-map);
+}
+.second{
+    @include set-theme($second-value-map);
+}
+
+//base colors
+.base{
+    .text-neutral-light{
+        color: map-get-value($base-values-map, base-neutral-light);
+    }
+    .text-neutral-dark{
+        color: map-get-value($base-values-map, base-neutral-dark);
+    }
+}
